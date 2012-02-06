@@ -3,6 +3,8 @@ layout: post
 title: Getting things done
 ---
 
+p(meta).
+
 First for a very brief introduction. I'm Seppo Yli-Olli, a Finnish computer engineer.
 I take great satisfaction from learning to use programming languages and that's pretty
 much what I've been wasting last few years in. Luckily it also got me employed so I suppose
@@ -16,3 +18,6 @@ simply send flat markdown files which can be treated as markdowns, this might ju
 
 Given much of the originall material like templates and css files are from 
 http://github.com/mojombo/jekyll, I'd like to point out my thanks in that direction.
+
+ps. I can now understand why the author uses textile instead of Markdown. You can't set CSS classes
+for markdown tags. I'm going with textile as well.
