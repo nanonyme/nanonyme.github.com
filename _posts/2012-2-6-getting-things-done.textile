@@ -3,7 +3,7 @@ layout: post
 title: Getting things done
 ---
 
-p(meta).
+p(meta). 06 Feb 2012 - Espoo
 
 First for a very brief introduction. I'm Seppo Yli-Olli, a Finnish computer engineer.
 I take great satisfaction from learning to use programming languages and that's pretty
