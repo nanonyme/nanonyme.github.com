@@ -13,3 +13,6 @@ but at this point it's time to face the fact that every single attempt in the en
 yet another software development project. Perhaps I just aren't the person to maintain their own
 blog. This is probably my last try at this with Github pages. Given Github pages allow you to 
 simply send flat markdown files which can be treated as markdowns, this might just be the thing.
+
+Given much of the originall material like templates and css files are from 
+http://github.com/mojombo/jekyll, I'd like to point out my thanks in that direction.
