@@ -1,0 +1,48 @@
+---
+layout: post
+title: Mirroring PyPi
+---
+
+p(meta). 09 Feb 2012 - Espoo
+
+Ever had autodeployment environments and everything worked fine all the way until
+Murphy happened? Be it PyPi master being down or intranet losing connection to 
+Internet, it always pisses me off when that happens. I was seeking solutions for
+the problem a few weeks ago and found this pypimirror. But finding it ended up
+being only the tip of the iceberg. :)
+
+When I actually ran pypimirror on a server with plenty resources, I noticed a
+curious thing: it ran really really slow with no noticeable CPU usage. While
+this was unnerving, I ignored it for a while since you can always kick the
+server run a sync overnight and then come back the next day. What really
+made my alarm bells ring was that one day when I was doing auto-deployment,
+pip noticed me that there was corruption in my mirror. I was *really*
+conserned. Not only because on the files that pip failed on, it could be
+reproduced every time.
+
+While spending some quality time off from studies yesterday, I started wondering
+whether pypimirror had revision control so I could check what it actually does
+and maybe, just maybe, do some modifications. I ended up finding it on Launchpad
+and after long painful learning of Bazaar (it's really nothing like any other
+distributed revision management system I've used to), I finally got the sources.
+I noticed some really weird things like it started seeming to me that there's a
+scenario when pypimirror pulls files from an external repo and they're not checked
+except on size basis! So pretty much the worst possible way of checking consistency
+except doing nothing at all.
+
+I rewrote pypimirror to pool downloads together such that md5sums would be shared
+between PyPi files and external files. This I thought should make it sure that even
+though files were remotes, they would still be checked. I also wrote another layer
+of protection: if md5sums are missing altogether, the file itself is checked.
+pypimirror now tries to decompress all gz, zip and bz2 files it downloads which have
+no checksum. If this fails, the file is considered corrupted.
+
+The most significant change though was when I decided it's worth the effort to pull
+in eventlet. You probably remember from the beginning when I mentioned the speed
+problems. Now pypimirror has a pool of package requests and it might handle up to
+a thousand HTTP requests concurrently. I saw CPU spiking up to almost 80% on one
+core when I tested it. Mirroring also *seemed* to be considerably faster but I would
+have to do further benchmarking on more significant amounts of the repository.
+
+Original pypimirror code is available on https://launchpad.net/pypi-mirror and my
+own version is available on https://github.com/nanonyme/pypi-mirror
