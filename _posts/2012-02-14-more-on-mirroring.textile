@@ -1,0 +1,43 @@
+---
+layout: post
+title: More on mirroring
+---
+
+p(meta). 14 Feb 2012 - Espoo
+
+Blah, I'm too tired with valentine's that I'll just rant(?) a bit of my
+findings while developing pypi-mirror further. 
+
+I did find out that we're in a fairly ugly middle-state with regards to 
+PyPI: current interfaces aren't particularly well designed - XMLRPC query 
+system can require up to three calls for fairly simple stuff like "give me 
+download links for all distributions of package Foo" - and JSON API gives
+wrong version as newest distribution for some packages.
+
+There's light ahead though: Python stdlib developers apparently have noticed
+that these things need to be handled better so packaging.pypi was born. 
+http://docs.python.org/dev/library/packaging.pypi.html By the name you might
+suspect that this is just something packagers or package management (eg pip)
+would use but in fact having read pypi-mirror, this would replace most of
+the actually annoying code inside it were it already in stdlib.
+
+There will be packaging.pypi.simple for querying through the simple interface
+which allows you to install packages really easily. There will also be
+packaging.pypi.xmlrpc which is a *lot* improved version of the current XMLRPC
+API. This will no doubt mean improvements on server end as well. While
+nothing can actually be promised based on development documentation, it
+appears that these new API's would actually support version-based constraints
+for querying packages instead of having to query all package versions and
+filter yourself locally. It is obviously possible that the modules would do -
+at least at first - things much in the same way as before but at least this
+way around it happens in the background and packaging utility developers can
+safely ignore that part.
+
+The reason why the XMLRPC interface is important is that while the simple
+interface is a bunch of HTML pages that you have to traverse and collect links
+from to collect the package information, XMLRPC allows you to pre-filter
+your constraints for eg mirroring before do anything further. This should
+allow a considerably better pypi-mirror in the future although currently would
+appear that the new API's would still have no wildcard calls for packages
+(original pypi-mirror uses fnmatch to filter packages) so if this functionality
+is wanted in, it still needs to be done in pypi-mirror itself.
