@@ -195,3 +195,8 @@ ul.posts {
   #related h2 {
     margin-bottom: 1em;
   }
+
+div.container {
+    position: fixed;
+    left: 25%;
+}
